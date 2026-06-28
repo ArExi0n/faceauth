@@ -12,12 +12,12 @@ var(
 
 type Storage struct {
 	Session interface{
-		Create(context.Context) (string, error)
+		Create(context.Context) (*Session, error)
 		FindBySessionToken(context.Context, string) (*Session, error)
 	}
-	
+
 	Profile interface{
-		Create(context.Context, string)(string, error)
+		Create(context.Context, string) error
 	}
 }
 
