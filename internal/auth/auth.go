@@ -7,7 +7,7 @@ import (
 
 type Authenticator interface {
 	GenerateToken(context.Context) (string, error)
-	ValidateToken(context.Context) error
+	ValidateToken(context.Context, string) error
 }
 
 type SessionAuth struct {
@@ -21,12 +21,11 @@ func New(store store.Storage) *SessionAuth {
 }
 
 func (sa *SessionAuth) GenerateToken(ctx context.Context) (string, error) {
-	sessinToken, err := sa.store.Session.Create(ctx)
-
+	sessionToken, err := sa.store.Session.Create(ctx)
 	if err != nil {
 		return "", err
 	}
-	return sessinToken.Token, err
+	return sessionToken.Token, nil
 }
 
 func (sa *SessionAuth) ValidateToken(ctx context.Context, token string) error {
